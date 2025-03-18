@@ -1,4 +1,4 @@
-import {useMemo, useState} from "react";
+import { useMemo, useState } from "react";
 
 interface Articulo {
   id: number;
@@ -66,22 +66,37 @@ function App() {
           <li key={articulo.id}>
             <input
               value={articulo.name}
-              onChange={(event) => editarArticulo({...articulo, name: event.target.value})}
+              onChange={(event) =>
+                editarArticulo({ ...articulo, name: event.target.value })
+              }
             />
             <input
-              style={{width: 96}}
+              style={{ width: 96 }}
               value={articulo.price}
-              onChange={(event) => editarArticulo({...articulo, price: Number(event.target.value)})}
+              onChange={(event) =>
+                editarArticulo({
+                  ...articulo,
+                  price: Number(event.target.value),
+                })
+              }
             />
             <input
-              style={{width: 96}}
+              style={{ width: 96 }}
               value={articulo.count}
-              onChange={(event) => editarArticulo({...articulo, count: Number(event.target.value)})}
+              onChange={(event) =>
+                editarArticulo({
+                  ...articulo,
+                  count: Number(event.target.value),
+                })
+              }
             />
             <select
               value={articulo.status}
               onChange={(event) =>
-                editarArticulo({...articulo, status: event.target.value as Articulo["status"]})
+                editarArticulo({
+                  ...articulo,
+                  status: event.target.value as Articulo["status"],
+                })
               }
             >
               <option value="wish">Deseo</option>
