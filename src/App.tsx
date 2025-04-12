@@ -19,42 +19,77 @@ function obtenerNuevoArticulo(articulo?: Partial<Articulo>): Articulo {
   };
 }
 
+const NEW_ARTICULO: Articulo = {
+  id: 0,
+  name: "",
+  price: 0,
+  count: 0,
+  status: "cancelado",
+};
+const initialArticulos: Articulo[] = [
+  {
+    id: 1,
+    name: "Cámara digital",
+    price: 100,
+    count: 1,
+    status: "deseo",
+  },
+  {
+    id: 2,
+    name: "Celular",
+    price: 100,
+    count: 1,
+    status: "deseo",
+  },
+];
+
 function App() {
-  const [articulos, setArticulos] = useState<Articulo[]>(() => [
-    obtenerNuevoArticulo({
-      name: "Cámara digital",
-      price: 100,
-      count: 1,
-      status: "deseo",
-    }),
-  ]);
+  const [articulos, setArticulos] = useState<Articulo[]>(
+    () => initialArticulos
+  );
+
   const total = useMemo(() => {
     // @TODO: Retornar la suma de los precios de los artículos
-    return 0;
+    return articulos.reduce((acc, item) => {
+      return acc + item.price;
+    }, 0);
   }, [articulos]);
+
   const articulosValidos = useMemo(() => {
     // @TODO: Retornar true si todos los artículos son válidos
-    return true;
+    return !articulos.some((articulo) => {
+      return (
+        !articulo.name ||
+        articulo.price <= 0 ||
+        articulo.count <= 0 ||
+        !articulo.status
+      );
+    });
   }, [articulos]);
 
   function agregarArticulo() {
-    setArticulos((articulos) => {
-      // @TODO: Retornar un nuevo arreglo con un nuevo artículo
-      return articulos;
+    setArticulos((prev) => {
+      const idtoAdd = prev.length ? prev[prev.length - 1].id + 1 : 0;
+      return [...prev, { ...NEW_ARTICULO, id: idtoAdd }];
     });
   }
 
   function editarArticulo(articuloModificado: Articulo) {
     setArticulos((articulos) => {
       // @TODO: Retornar un nuevo arreglo con el artículo editado
-      return articulos;
+      return articulos.map((articulo) => {
+        if (articulo.id === articuloModificado.id) return articuloModificado;
+        return articulo;
+      });
     });
   }
 
   function eliminarArticulo(articuloAEliminar: Articulo) {
     setArticulos((articulos) => {
       // @TODO: Retornar un nuevo arreglo sin el artículo
-      return articulos;
+      return articulos.filter((articulo) => {
+        return articulo.id != articuloAEliminar.id;
+      });
     });
   }
 
